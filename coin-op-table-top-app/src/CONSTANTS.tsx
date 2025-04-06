@@ -20,4 +20,8 @@ export const statsLabelLookup: Readonly<Map<keyof STATS, string>> = new Map([
     ['cognition', 'Cognition'],
     ['commonSense', 'Common Sense'],
     ['cooperation', 'Cooperation']
-]);    
+]);
+
+export const AVAILABLE_POINTS = 2;
+export const MIN_STATS = -2;
+export const MAX_STATS = 2;
