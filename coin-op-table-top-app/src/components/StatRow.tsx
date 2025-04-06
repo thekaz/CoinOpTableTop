@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { STATS } from '../CONSTANTS';
+import { STATS, statsLabelLookup } from '../CONSTANTS';
 import styled from '@emotion/styled';
 
 type Props = {
@@ -10,16 +10,25 @@ type Props = {
 }
 
 const StyledDiv = styled.div`margin:2px;`;
+const StyledNameSpan = styled.span`width:100px`;
 const StyledInput = styled.input`background: none;border:1px solid white; color:white`;
 
 function StatRow( {statName, statValue, statUpdateFunction, writeMode }: Props) {
+    const statLabel = statsLabelLookup.get(statName);
     return (
         <StyledDiv>
-            {writeMode ? <span><label>{statName}: </label><label>{statValue}</label></span> :
+            {writeMode ?
             <span>
-                <label>{statName}: </label>
-                <StyledInput width={2} type="number" onChange={(e) => {statUpdateFunction(statName, parseInt(e.target.value))}} value={statValue}/>
-            </span>}
+                <label>{statLabel}: </label>
+                <StyledInput 
+                    width={2} 
+                    type="number"
+                    onChange={(e) => {statUpdateFunction(statName, parseInt(e.target.value || ''))}}
+                    value={statValue}
+                />
+            </span> : 
+            <><StyledNameSpan><label>{statLabel}: </label></StyledNameSpan><span><label>{statValue}</label></span></>
+            }
         </StyledDiv>
     )
 }
