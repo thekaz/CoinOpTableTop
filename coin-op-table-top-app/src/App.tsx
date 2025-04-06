@@ -1,10 +1,10 @@
 import React from 'react';
-import StatsBlock from './components/StatsBlock';
+import StatStateContainer from './components/StatStateContainer';
 
 function App() {
   return (
     <div className="App">
-      <StatsBlock />
+      <StatStateContainer />
     </div>
   );
 }

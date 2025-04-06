@@ -1,34 +1,21 @@
-import React, {useState, useCallback, useMemo} from 'react';
-import { STATS, AVAILABLE_POINTS } from '../CONSTANTS';
+import React, {useState, useCallback} from 'react';
+import { ISTATS, AVAILABLE_POINTS, DEFAULT_STATS } from '../CONSTANTS';
 import StatRow from './StatRow';
 import styled from '@emotion/styled';
 
-type StatsArray = Array<keyof STATS>;
-const orderedStatsList: StatsArray = [
-    'combat',
-    'coordination',
-    'constitution',
-    'cognition',
-    'commonSense',
-    'cooperation'
-];
-
 const StyledDiv = styled.div`padding:12px;`
 
-function StatsBlock() {
+interface PROPS {
+    stats: ISTATS,
+    setStats: (stats: ISTATS) => void,
+}
+
+function StatsBlock({stats, setStats}: PROPS) {
     const [inWriteMode, setWriteMode] = useState(false);
-    const defaultStats = useMemo( () => ({
-        combat: 0,
-        coordination: 0,
-        constitution: 0,
-        cognition: 0,
-        commonSense: 0,
-        cooperation: 0,
-    } as STATS), []);
-    const [stats, setStats] = useState(defaultStats);
+
     const [availablePoints, setAvailablePoints] = useState(AVAILABLE_POINTS);
 
-    const increaseStat = useCallback((statToUpdate: keyof STATS) => {
+    const increaseStat = useCallback((statToUpdate: keyof ISTATS) => {
         if (stats[statToUpdate] >=2) {
             return;
         }
@@ -46,7 +33,7 @@ function StatsBlock() {
         
     }, [stats, setStats, availablePoints, setAvailablePoints]);
 
-    const decreaseStat = useCallback((statToUpdate: keyof STATS) => {
+    const decreaseStat = useCallback((statToUpdate: keyof ISTATS) => {
         if (stats[statToUpdate] <= -2) {
             return;
         }
@@ -69,11 +56,11 @@ function StatsBlock() {
     }, [setWriteMode]);
 
     const resetCallback = useCallback(() => {
-        setStats(defaultStats);
+        setStats(DEFAULT_STATS);
         setAvailablePoints(AVAILABLE_POINTS);
-    }, [setStats, defaultStats, setAvailablePoints]);
+    }, [setStats, setAvailablePoints]);
 
-    const listOfStats = Object.keys(stats) as Array<keyof STATS>;
+    const listOfStats = Object.keys(stats) as Array<keyof ISTATS>;
 
     return (
         <StyledDiv>

@@ -1,4 +1,4 @@
-export type STATS = {
+export interface ISTATS {
     combat: number;
     coordination: number;
     constitution: number;
@@ -7,13 +7,22 @@ export type STATS = {
     cooperation: number;
 }
 
-type StatsArray = Array<keyof STATS>;
+export type TSTAT = keyof ISTATS;
 
-export const orderedStatsList: StatsArray = [
+export const DEFAULT_STATS: ISTATS = {
+    combat: 0,
+    coordination: 0,
+    constitution: 0,
+    cognition: 0,
+    commonSense: 0,
+    cooperation: 0,
+};
+
+export const orderedStatsList: Array<TSTAT> = [
     'combat', 'coordination', 'constitution', 'cognition', 'commonSense', 'cooperation'
 ];
 
-export const statsLabelLookup: Readonly<Map<keyof STATS, string>> = new Map([
+export const statsLabelLookup: Readonly<Map<TSTAT, string>> = new Map([
     ['combat', 'Combat'],
     ['coordination', 'Coordination'],
     ['constitution', 'Constitution'],

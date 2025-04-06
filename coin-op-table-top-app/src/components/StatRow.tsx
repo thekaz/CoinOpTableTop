@@ -1,13 +1,13 @@
 import React from 'react';
-import { STATS, statsLabelLookup, MIN_STATS, MAX_STATS } from '../CONSTANTS';
+import { ISTATS, statsLabelLookup, MIN_STATS, MAX_STATS } from '../CONSTANTS';
 import styled from '@emotion/styled';
 
-type Props = {
-    statName: keyof STATS;
+interface IPROPS {
+    statName: keyof ISTATS;
     statValue: number;
     availablePoints: number;
-    increaseStatCallback: (statToUpdate: keyof STATS) => void;
-    decreaseStatCallback: (statToUpdate: keyof STATS) => void;
+    increaseStatCallback: (statToUpdate: keyof ISTATS) => void;
+    decreaseStatCallback: (statToUpdate: keyof ISTATS) => void;
     writeMode: boolean;
 }
 
@@ -27,7 +27,7 @@ const StyledPlusMinusButton = styled.button`
     visibility: ${({ disabled }) => disabled ? 'hidden' : null};
 `;
 
-function StatRow( {statName, statValue, availablePoints, increaseStatCallback, decreaseStatCallback, writeMode }: Props) {
+function StatRow( {statName, statValue, availablePoints, increaseStatCallback, decreaseStatCallback, writeMode }: IPROPS) {
     const statLabel = statsLabelLookup.get(statName);
     const disablePlus = statValue >= MAX_STATS || availablePoints <= 0;
     const disableMinus = statValue <= MIN_STATS;
