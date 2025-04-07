@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/coin-op-table-top-app/static/css/main.3bac0df3.css",
+    "main.js": "/coin-op-table-top-app/static/js/main.d110d8a4.js",
+    "index.html": "/coin-op-table-top-app/index.html",
+    "main.3bac0df3.css.map": "/coin-op-table-top-app/static/css/main.3bac0df3.css.map",
+    "main.d110d8a4.js.map": "/coin-op-table-top-app/static/js/main.d110d8a4.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3bac0df3.css",
+    "static/js/main.d110d8a4.js"
+  ]
+}
