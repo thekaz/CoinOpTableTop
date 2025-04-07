@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import StatsBlock from './StatsBlock';
-import { ISTATS } from '../CONSTANTS';
+import { TSTATS } from '../CONSTANTS';
 import CoinFlipArea from './CoinFlipArea';
 
 function StatStateContainer() {
@@ -11,7 +11,7 @@ function StatStateContainer() {
         cognition: 0,
         commonSense: 0,
         cooperation: 0,
-    } as ISTATS;
+    } as TSTATS;
     const [stats, setStats] = useState(defaultStats);
 
     return <>

@@ -1,13 +1,13 @@
 import React, {useState, useCallback} from 'react';
-import { ISTATS, AVAILABLE_POINTS, DEFAULT_STATS } from '../CONSTANTS';
+import { TSTATS, AVAILABLE_POINTS, DEFAULT_STATS } from '../CONSTANTS';
 import StatRow from './StatRow';
 import styled from '@emotion/styled';
 
 const StyledDiv = styled.div`padding:12px;`
 
 interface PROPS {
-    stats: ISTATS,
-    setStats: (stats: ISTATS) => void,
+    stats: TSTATS,
+    setStats: (stats: TSTATS) => void,
 }
 
 function StatsBlock({stats, setStats}: PROPS) {
@@ -15,7 +15,7 @@ function StatsBlock({stats, setStats}: PROPS) {
 
     const [availablePoints, setAvailablePoints] = useState(AVAILABLE_POINTS);
 
-    const increaseStat = useCallback((statToUpdate: keyof ISTATS) => {
+    const increaseStat = useCallback((statToUpdate: keyof TSTATS) => {
         if (stats[statToUpdate] >=2) {
             return;
         }
@@ -33,7 +33,7 @@ function StatsBlock({stats, setStats}: PROPS) {
         
     }, [stats, setStats, availablePoints, setAvailablePoints]);
 
-    const decreaseStat = useCallback((statToUpdate: keyof ISTATS) => {
+    const decreaseStat = useCallback((statToUpdate: keyof TSTATS) => {
         if (stats[statToUpdate] <= -2) {
             return;
         }
@@ -60,7 +60,7 @@ function StatsBlock({stats, setStats}: PROPS) {
         setAvailablePoints(AVAILABLE_POINTS);
     }, [setStats, setAvailablePoints]);
 
-    const listOfStats = Object.keys(stats) as Array<keyof ISTATS>;
+    const listOfStats = Object.keys(stats) as Array<keyof TSTATS>;
 
     return (
         <StyledDiv>
