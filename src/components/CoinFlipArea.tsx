@@ -28,7 +28,7 @@ function CoinFlipArea({stats}: TPROPS) {
     const loopFlips = (modifier: number, count: number = 0)=> {
         if (count >= 7) {
             setFlippingState(false);
-            setOverallPassResult(collateResults(flipResultsRef.current) > setSkillCheckDcRef.current);
+            setOverallPassResult(collateResults(flipResultsRef.current) >= setSkillCheckDcRef.current);
             return;
         }
         setTimeout(() => {
