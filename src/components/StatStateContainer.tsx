@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import StatsBlock from './StatsBlock';
-import { TSTATS } from '../CONSTANTS';
+import { TSTATS } from '../utils/CONSTANTS';
 import CoinFlipArea from './CoinFlipArea';
 
 function StatStateContainer() {

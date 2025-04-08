@@ -1,4 +1,4 @@
-import { TFLIP_RESULT, TFLIP_RESULTS } from "../CONSTANTS";
+import { TFLIP_RESULT, TFLIP_RESULTS } from "./CONSTANTS";
 
 export type TFLIP_RETURN = {
     result: TFLIP_RESULT,

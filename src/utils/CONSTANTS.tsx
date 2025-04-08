@@ -60,3 +60,26 @@ export const AVAILABLE_POINTS = 2;
 export const MIN_STATS = -2;
 export const MAX_STATS = 2;
 export const FLIP_TOTAL = 7;
+
+export const defaultButtonStyle = `
+    background: none;
+    color: inherit;
+    border: 1px solid white;
+    padding-right: 2px;
+    padding-left: 2px;
+    font: inherit;
+    outline: inherit;
+    margin-left: 2px;
+    margin-right: 2px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+`;
+
+export const defaultSelectStyle = `
+    border: 1px solid white;
+    margin-left: 2px;
+    margin-right: 2px;
+    cursor: pointer;
+`;
