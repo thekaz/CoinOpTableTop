@@ -7,10 +7,11 @@ import {
     DEFAULT_FLIP_RESULTS, 
     TFLIP_RESULTS, 
     defaultButtonStyle, 
-    defaultSelectStyle
+    defaultSelectStyle,
 } from '../utils/CONSTANTS';
 import styled from '@emotion/styled';
 import { collateResults, doFlip, TFLIP_RETURN } from '../utils/coinflip';
+import CoinFlipResults from './CoinFlipResults';
 
 interface TPROPS {
     stats: TSTATS
@@ -42,16 +43,11 @@ const StyledOption = styled.option`
     background: inherit;
 `;
 
-const StyledFlipResultSpan = styled.span<{auto: boolean}>`
-    border: ${( { auto }) => auto ? '1px solid white': 'none'};
-`;
-
 const StyledResultDiv = styled.div`height: 32px;`;
 
 function CoinFlipArea({stats}: TPROPS) {
     const flipResultsRef = useRef(DEFAULT_FLIP_RESULTS);
     const skillCheckDcRef = useRef(1);
-    const timer = useRef<ReturnType<typeof setTimeout>>(null);
     const [modStat, setModStat] = useState('combat' as TSTAT);
     const [flippingState, setFlippingState] = useState(false);
     const [flipResults, setFlipResults] = useState(DEFAULT_FLIP_RESULTS);
@@ -64,42 +60,51 @@ function CoinFlipArea({stats}: TPROPS) {
     }, [flipResults, skillCheckDc]);
 
     const loopFlips = (modifier: number, count: number = 0)=> {
-        if (count >= 7) {
-            timer.current && clearTimeout(timer.current);
+        const flipReturn: TFLIP_RETURN = doFlip(modifier);
+        const newFlipResults: TFLIP_RESULTS = {
+            ...flipResultsRef.current,
+            [count+1]: flipReturn.result,
+        }
+        setFlipResults(newFlipResults);
+
+        const collatedResults = collateResults(newFlipResults);
+
+        if (collatedResults >= skillCheckDcRef.current) {
             setFlippingState(false);
-            setOverallPassResult(collateResults(flipResultsRef.current) >= skillCheckDcRef.current);
+            setOverallPassResult(true);
             return;
         }
-        timer.current = setTimeout(() => {
-            const flipReturn: TFLIP_RETURN = doFlip(modifier);
-            const newFlipResults: TFLIP_RESULTS = {
-                ...flipResultsRef.current,
-                [count+1]: flipReturn.result,
-            }
-            setFlipResults(newFlipResults);
+
+        if (collatedResults + 6 - count < skillCheckDcRef.current) {
+            setFlippingState(false);
+            setOverallPassResult(false);
+            return;
+        }
+
+        if (count >= 7) {
+            setFlippingState(false);
+            setOverallPassResult(collatedResults >= skillCheckDcRef.current);
+            return;
+        }
+
+        setTimeout(() => {
             loopFlips(flipReturn.modifier, count+1)
         }, modifier !== 0 ? 50 : 1000);
     };
 
     const flipButtonCallback = () => {
         setFlipResults(DEFAULT_FLIP_RESULTS);
+        flipResultsRef.current = DEFAULT_FLIP_RESULTS;
         setFlippingState(true);
         setOverallPassResult(null);
         const modifier = stats[modStat];
         loopFlips(modifier);
     };
 
-    const flipResultsKeys: Array<keyof TFLIP_RESULTS> = Object.keys(flipResults) as any;
-
     return <StyledWrapperDiv>
         <StyledResultDiv>Result: {overallPassResult === null ? "__" : overallPassResult ? '✔️' : '❌'}</StyledResultDiv>
         <StyledGridContainerDiv>
-            {flipResultsKeys.map((key: keyof TFLIP_RESULTS) => 
-                <div>{flipResults[key] === null ?
-                    "__" : 
-                        <StyledFlipResultSpan auto={!!flipResults[key]?.auto}>{flipResults[key]?.pass ? '✔️' : '❌'}</StyledFlipResultSpan>
-                }</div>
-            )}
+           <CoinFlipResults flipResults={flipResults}/>
         </StyledGridContainerDiv>
         <StyledSelectDiv>
             <label>Skill </label>
