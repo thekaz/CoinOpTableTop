@@ -66,7 +66,7 @@ function CoinFlipArea({stats}: TPROPS) {
         const flipReturn: TFLIP_RETURN = doFlip(modifier);
         const newFlipResults: TFLIP_RESULTS = {
             ...flipResultsRef.current,
-            [count+1]: flipReturn.result,
+            [count]: flipReturn.result,
         }
         setFlipResults(newFlipResults);
 
@@ -90,11 +90,14 @@ function CoinFlipArea({stats}: TPROPS) {
             return;
         }
 
-        const newCount = count+1;
+        setFlipResults({
+            ...newFlipResults,
+            [count+1] : {inProgress: true}
+        });
 
         setTimeout(() => {
-            loopFlips(flipReturn.modifier, newCount)
-        }, modifier !== 0 ? 50 : newCount * 400);
+            loopFlips(flipReturn.modifier, count+1)
+        }, modifier !== 0 ? 50 : 500 + count * 300);
     };
 
     const flipButtonCallback = () => {

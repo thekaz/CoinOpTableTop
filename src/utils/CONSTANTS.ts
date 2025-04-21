@@ -1,5 +1,3 @@
-export const CROSS_CHAR_IN_PROGRESS = '🗷';
-export const CHECK_CHAR_IN_PROGRESS = '🗹';
 export const CROSS_CHAR = '❌';
 export const CHECK_CHAR = '✔️';
 export const BLANK_CHAR = '__';
@@ -26,28 +24,28 @@ export const DEFAULT_STATS: TSTATS = {
 
 export type TFLIP_RESULT = {
     pass?: boolean,
-    auto?: boolean, 
+    auto?: boolean,
     inProgress?: boolean,
 };
 
 export type TFLIP_RESULTS = {
+    0: TFLIP_RESULT | null,
     1: TFLIP_RESULT | null,
     2: TFLIP_RESULT | null,
     3: TFLIP_RESULT | null,
     4: TFLIP_RESULT | null,
     5: TFLIP_RESULT | null,
     6: TFLIP_RESULT | null,
-    7: TFLIP_RESULT | null,
 }
 
 export const DEFAULT_FLIP_RESULTS: TFLIP_RESULTS = {
+    0: null,
     1: null,
     2: null,
     3: null,
     4: null,
     5: null,
     6: null,
-    7: null,
 }
 
 export const orderedStatsList: Array<TSTAT> = [
