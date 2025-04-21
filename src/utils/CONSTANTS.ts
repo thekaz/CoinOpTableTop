@@ -1,3 +1,9 @@
+export const CROSS_CHAR_IN_PROGRESS = '🗷';
+export const CHECK_CHAR_IN_PROGRESS = '🗹';
+export const CROSS_CHAR = '❌';
+export const CHECK_CHAR = '✔️';
+export const BLANK_CHAR = '__';
+
 export type TSTATS = {
     combat: number,
     coordination: number,
@@ -19,8 +25,9 @@ export const DEFAULT_STATS: TSTATS = {
 };
 
 export type TFLIP_RESULT = {
-    pass: boolean,
-    auto: boolean
+    pass?: boolean,
+    auto?: boolean, 
+    inProgress?: boolean,
 };
 
 export type TFLIP_RESULTS = {
