@@ -87,9 +87,11 @@ function CoinFlipArea({stats}: TPROPS) {
             return;
         }
 
+        const newCount = count+1;
+
         setTimeout(() => {
-            loopFlips(flipReturn.modifier, count+1)
-        }, modifier !== 0 ? 50 : 1000);
+            loopFlips(flipReturn.modifier, newCount)
+        }, modifier !== 0 ? 50 : newCount * 400);
     };
 
     const flipButtonCallback = () => {
