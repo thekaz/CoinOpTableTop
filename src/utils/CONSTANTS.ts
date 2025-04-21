@@ -52,6 +52,10 @@ export const orderedStatsList: Array<TSTAT> = [
     'combat', 'coordination', 'constitution', 'cognition', 'commonSense', 'cooperation'
 ];
 
+export type TDC = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+
+export const DC_LIST: Array<TDC> = [1,2,3,4,5,6,7];
+
 export const statsLabelLookup: Readonly<Map<TSTAT, string>> = new Map([
     ['combat', 'Combat'],
     ['coordination', 'Coordination'],
@@ -60,6 +64,17 @@ export const statsLabelLookup: Readonly<Map<TSTAT, string>> = new Map([
     ['commonSense', 'Common Sense'],
     ['cooperation', 'Cooperation']
 ]);
+
+export const challengeRatingLabelLookup: Readonly<Map<TDC, string>> = new Map([
+    [1, '1 - Trivial'],
+    [2, '2 - Simple'],
+    [3, '3 - Easy'],
+    [4, '4 - 50/50'],
+    [5, '5 - Difficult'],
+    [6, '6 - Epic'],
+    [7, '7 - Legendary'],
+
+])
 
 export const AVAILABLE_POINTS = 2;
 export const MIN_STATS = -2;

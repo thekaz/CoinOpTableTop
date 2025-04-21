@@ -11,6 +11,8 @@ import {
     BLANK_CHAR,
     CHECK_CHAR,
     CROSS_CHAR,
+    DC_LIST,
+    challengeRatingLabelLookup,
 } from '../utils/CONSTANTS';
 import styled from '@emotion/styled';
 import { collateResults, doFlip, TFLIP_RETURN } from '../utils/coinflip';
@@ -39,8 +41,6 @@ const StyledSelectDiv = styled.div`
     display: flex;
     align-items: center;
 `;
-
-const dcList = [1,2,3,4,5,6,7];
 
 const StyledOption = styled.option`
     background: inherit;
@@ -123,7 +123,7 @@ function CoinFlipArea({stats}: TPROPS) {
         <StyledSelectDiv>
             <label>Difficulty </label>
             <StyledSelect onChange={(e) => setSkillCheckDc(parseInt(e.target.value))}>
-                {dcList.map((dc) => <StyledOption value={dc} key={dc}>{dc}</StyledOption>)}
+                {DC_LIST.map((dc) => <StyledOption value={dc} key={dc}>{challengeRatingLabelLookup.get(dc)}</StyledOption>)}
             </StyledSelect>
         </StyledSelectDiv>
         
