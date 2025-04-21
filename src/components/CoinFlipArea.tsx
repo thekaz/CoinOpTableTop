@@ -8,6 +8,9 @@ import {
     TFLIP_RESULTS, 
     defaultButtonStyle, 
     defaultSelectStyle,
+    BLANK_CHAR,
+    CHECK_CHAR,
+    CROSS_CHAR,
 } from '../utils/CONSTANTS';
 import styled from '@emotion/styled';
 import { collateResults, doFlip, TFLIP_RETURN } from '../utils/coinflip';
@@ -104,7 +107,7 @@ function CoinFlipArea({stats}: TPROPS) {
     };
 
     return <StyledWrapperDiv>
-        <StyledResultDiv>Result: {overallPassResult === null ? "__" : overallPassResult ? '✔️' : '❌'}</StyledResultDiv>
+        <StyledResultDiv>Result: {overallPassResult === null ? BLANK_CHAR : overallPassResult ? CHECK_CHAR : CROSS_CHAR}</StyledResultDiv>
         <StyledGridContainerDiv>
            <CoinFlipResults flipResults={flipResults}/>
         </StyledGridContainerDiv>
