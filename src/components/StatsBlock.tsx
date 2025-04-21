@@ -9,17 +9,16 @@ const StyledGridContainerDiv = styled.div`display: grid; grid-template-columns: 
 interface PROPS {
     stats: TSTATS,
     setStats: (stats: TSTATS) => void,
+    availablePoints: number,
+    setAvailablePoints: (points: number) => void
 }
 
 const StyledButton = styled.button`
     ${defaultButtonStyle}
 `;
 
-function StatsBlock({stats, setStats}: PROPS) {
+function StatsBlock({stats, setStats, availablePoints, setAvailablePoints}: PROPS) {
     const [inWriteMode, setWriteMode] = useState(false);
-
-    const [availablePoints, setAvailablePoints] = useState(AVAILABLE_POINTS);
-
     const increaseStat = useCallback((statToUpdate: keyof TSTATS) => {
         if (stats[statToUpdate] >=2) {
             return;

@@ -81,6 +81,9 @@ export const MIN_STATS = -2;
 export const MAX_STATS = 2;
 export const FLIP_TOTAL = 7;
 
+export const LOCAL_STORE_STATS_KEY = 'STATS';
+export const LOCAL_STORE_POINTS_KEY = 'POINTS';
+
 export const defaultButtonStyle = `
     background: none;
     color: inherit;
