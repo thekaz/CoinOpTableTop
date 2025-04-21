@@ -20,7 +20,7 @@ function CoinFlipResults( {flipResults}: TPROPS) {
         intervalId.current = setInterval(() => {
             isInProgressCrossRef.current = !isInProgressCrossRef.current;
             setInProgressCross(isInProgressCrossRef.current);
-        }, 20);
+        }, 100);
 
         return () => {
             if (intervalId.current) {
