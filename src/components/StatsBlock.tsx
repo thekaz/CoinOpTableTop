@@ -75,12 +75,14 @@ function StatsBlock({stats, setStats, availablePoints, setAvailablePoints, name,
 
     const listOfStats = Object.keys(stats) as Array<keyof TSTATS>;
 
+    console.log(name);
+
     return (
         <StyledWrapperDiv>
             <div>
                 {inWriteMode ? 
                     <StyledInput type="text" value={name} onChange={setNameCallback}/> :
-                    <StyledNameSpan>{name}</StyledNameSpan>
+                    <StyledNameSpan>{name || "Your Name Here"}</StyledNameSpan>
                 }
             </div>
             <StyledGridContainerDiv>
