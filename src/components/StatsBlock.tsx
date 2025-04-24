@@ -4,20 +4,24 @@ import StatRow from './StatRow';
 import styled from '@emotion/styled';
 
 const StyledWrapperDiv = styled.div`padding:12px;`
-const StyledGridContainerDiv = styled.div`display: grid; grid-template-columns: 200px 40px 50px;`;
+const StyledGridContainerDiv = styled.div`display: grid; grid-template-columns: 200px 40px 50px; padding-top: 16px;`;
+const StyledNameSpan = styled.span`text-decoration: underline`;
+const StyledInput = styled.input`color: inherit; background: inherit; border: 1px solid white; cursor: pointer; font-size: inherit;`;
 
 interface PROPS {
     stats: TSTATS,
     setStats: (stats: TSTATS) => void,
     availablePoints: number,
-    setAvailablePoints: (points: number) => void
+    setAvailablePoints: (points: number) => void,
+    name: string,
+    setName: (name: string) => void,
 }
 
 const StyledButton = styled.button`
     ${defaultButtonStyle}
 `;
 
-function StatsBlock({stats, setStats, availablePoints, setAvailablePoints}: PROPS) {
+function StatsBlock({stats, setStats, availablePoints, setAvailablePoints, name, setName}: PROPS) {
     const [inWriteMode, setWriteMode] = useState(false);
     const increaseStat = useCallback((statToUpdate: keyof TSTATS) => {
         if (stats[statToUpdate] >=2) {
@@ -64,10 +68,21 @@ function StatsBlock({stats, setStats, availablePoints, setAvailablePoints}: PROP
         setAvailablePoints(AVAILABLE_POINTS);
     }, [setStats, setAvailablePoints]);
 
+    const setNameCallback = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        const newName = e.target.value;
+        setName(newName);
+    }, [setName]);
+
     const listOfStats = Object.keys(stats) as Array<keyof TSTATS>;
 
     return (
         <StyledWrapperDiv>
+            <div>
+                {inWriteMode ? 
+                    <StyledInput type="text" value={name} onChange={setNameCallback}/> :
+                    <StyledNameSpan>{name}</StyledNameSpan>
+                }
+            </div>
             <StyledGridContainerDiv>
                 {listOfStats.map((stat, idx) => {
                     return <StatRow key={idx}

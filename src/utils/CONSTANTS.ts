@@ -83,6 +83,7 @@ export const FLIP_TOTAL = 7;
 
 export const LOCAL_STORE_STATS_KEY = 'STATS';
 export const LOCAL_STORE_POINTS_KEY = 'POINTS';
+export const LOCAL_STORE_NAME_KEY = 'NAME';
 
 export const defaultButtonStyle = `
     background: none;
