@@ -75,8 +75,6 @@ function StatsBlock({stats, setStats, availablePoints, setAvailablePoints, name,
 
     const listOfStats = Object.keys(stats) as Array<keyof TSTATS>;
 
-    console.log(name);
-
     return (
         <StyledWrapperDiv>
             <div>
@@ -103,7 +101,7 @@ function StatsBlock({stats, setStats, availablePoints, setAvailablePoints, name,
             <div>
                 {inWriteMode ? 
                     <>
-                        <StyledButton onClick={doneCallback}>Done</StyledButton>
+                        <StyledButton onClick={doneCallback}>Save</StyledButton>
                         <StyledButton onClick={resetCallback}>Reset</StyledButton>
                     </> : 
                     <StyledButton onClick={editCallback}>Edit</StyledButton>

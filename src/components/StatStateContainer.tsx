@@ -1,13 +1,14 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import StatsBlock from './StatsBlock';
 import {
     AVAILABLE_POINTS, 
-    LOCAL_STORE_NAME_KEY, 
-    LOCAL_STORE_POINTS_KEY, 
-    LOCAL_STORE_STATS_KEY, 
+    STORAGE_NAME_KEY, 
+    STORAGE_POINTS_KEY, 
+    STORAGE_STATS_KEY, 
     TSTATS
 } from '../utils/CONSTANTS';
 import CoinFlipArea from './CoinFlipArea';
+import { validateStats } from '../utils/statsValidator';
 
 const defaultStats = {
     combat: 0,
@@ -18,33 +19,61 @@ const defaultStats = {
     cooperation: 0,
 } as TSTATS;
 
-const localStorageStats = localStorage.getItem(LOCAL_STORE_STATS_KEY);
-const initialStats: TSTATS = localStorageStats ? JSON.parse(localStorageStats) as TSTATS : defaultStats;
-
-const localStoragePoints = localStorage.getItem(LOCAL_STORE_POINTS_KEY);
-const initialPoints: number = localStoragePoints ? parseInt(localStoragePoints) : AVAILABLE_POINTS;
-
-const localStorageName = localStorage.getItem(LOCAL_STORE_NAME_KEY);
-const initialName: string = localStorageName || '';
-
 function StatStateContainer() {
-    const [stats, setStats] = useState(initialStats);
-    const [availablePoints, setAvailablePoints] = useState(initialPoints);
-    const [name, setName] = useState(initialName);
+    const initialStatsRef = useRef(defaultStats);
+    const initialPointsRef = useRef(AVAILABLE_POINTS);
+    const initialNameRef = useRef('')
+
+    const [stats, setStats] = useState(initialStatsRef.current);
+    const [availablePoints, setAvailablePoints] = useState(initialPointsRef.current);
+    const [name, setName] = useState(initialNameRef.current);
+
+    useEffect(() => {
+        const urlSearchParams = new URLSearchParams(window.location.search);
+
+        const urlStatsBase64 = urlSearchParams.get(STORAGE_STATS_KEY);
+        const stats = urlStatsBase64 ? JSON.parse(atob(urlStatsBase64)) as TSTATS : defaultStats;
+        const urlStoragePoints = urlSearchParams.get(STORAGE_POINTS_KEY);
+        const points = urlStoragePoints ? parseInt(urlStoragePoints) : AVAILABLE_POINTS;
+
+        const isValid = validateStats(stats, points);
+
+        if (isValid) {
+            initialStatsRef.current = stats;
+            setStats(stats);
+            initialPointsRef.current = points;
+            setAvailablePoints(points);
+        } else {
+            initialStatsRef.current = defaultStats;
+            setStats(defaultStats);
+            initialPointsRef.current = AVAILABLE_POINTS;
+            setAvailablePoints(AVAILABLE_POINTS);
+        }
+        
+        const urlStorageName = urlSearchParams.get(STORAGE_NAME_KEY);
+        initialNameRef.current = urlStorageName || '';
+        setName(initialNameRef.current);
+    }, []);
 
     const setStatsCallback = useCallback((newStats: TSTATS) => {
+        const url = new URL(window.location.href);
         setStats(newStats);
-        localStorage.setItem(LOCAL_STORE_STATS_KEY, JSON.stringify(newStats));
+        url.searchParams.set(STORAGE_STATS_KEY, btoa(JSON.stringify(newStats)));
+        window.history.pushState({}, '', url);
     }, [setStats]);
 
     const setAvailablePointsCallback = useCallback((newPoints: number) => {
+        const url = new URL(window.location.href);
         setAvailablePoints(newPoints);
-        localStorage.setItem(LOCAL_STORE_POINTS_KEY, newPoints.toString());
+        url.searchParams.set(STORAGE_POINTS_KEY, newPoints.toString());
+        window.history.pushState({}, '', url);
     }, [setAvailablePoints])
 
     const setNameCallback = useCallback((newName: string) => {
+        const url = new URL(window.location.href);
         setName(newName);
-        localStorage.setItem(LOCAL_STORE_NAME_KEY, newName);
+        url.searchParams.set(STORAGE_NAME_KEY, newName);
+        window.history.pushState({}, '', url);
     }, [setName])
 
     return <>
