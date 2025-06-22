@@ -99,6 +99,9 @@ export const defaultButtonStyle = `
     display: inline-flex;
     align-items: center;
     cursor: pointer;
+    &:focus {
+        border: 1px solid green;
+    }
 `;
 
 export const defaultSelectStyle = `
