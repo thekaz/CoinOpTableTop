@@ -51,6 +51,7 @@ const StyledResultDiv = styled.div`height: 32px;`;
 function CoinFlipArea({stats}: TPROPS) {
     const flipResultsRef = useRef(DEFAULT_FLIP_RESULTS);
     const skillCheckDcRef = useRef(1);
+    const flipTimeoutRef = useRef(0 as unknown);
     const [modStat, setModStat] = useState('combat' as TSTAT);
     const [flippingState, setFlippingState] = useState(false);
     const [flipResults, setFlipResults] = useState(DEFAULT_FLIP_RESULTS);
@@ -71,20 +72,22 @@ function CoinFlipArea({stats}: TPROPS) {
         setFlipResults(newFlipResults);
 
         const collatedResults = collateResults(newFlipResults);
+        const alreadyFinished = collatedResults >= skillCheckDcRef.current ||
+            collatedResults + 6 - count < skillCheckDcRef.current;
 
         if (collatedResults >= skillCheckDcRef.current) {
-            setFlippingState(false);
-            setOverallPassResult(true);
-            return;
+        //     setFlippingState(false);
+               setOverallPassResult(true);
+        //     return;
         }
 
         if (collatedResults + 6 - count < skillCheckDcRef.current) {
-            setFlippingState(false);
-            setOverallPassResult(false);
-            return;
+        //     setFlippingState(false);
+              setOverallPassResult(false);
+        //     return;
         }
 
-        if (count >= 7) {
+        if (count >= 6) {
             setFlippingState(false);
             setOverallPassResult(collatedResults >= skillCheckDcRef.current);
             return;
@@ -95,9 +98,9 @@ function CoinFlipArea({stats}: TPROPS) {
             [count+1] : {inProgress: true}
         });
 
-        setTimeout(() => {
+        flipTimeoutRef.current = setTimeout(() => {
             loopFlips(flipReturn.modifier, count+1)
-        }, modifier !== 0 ? 50 : 1000 + count * 500);
+        }, modifier !== 0 || alreadyFinished ? 50 : 1000 + count * 500);
     };
 
     const flipButtonCallback = () => {
