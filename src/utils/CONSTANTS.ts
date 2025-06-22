@@ -100,7 +100,7 @@ export const defaultButtonStyle = `
     align-items: center;
     cursor: pointer;
     &:focus {
-        border: 1px solid green;
+        border: 1px solid teal;
     }
 `;
 
