@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { 
     TSTATS, 
     orderedStatsList, 
@@ -63,7 +63,7 @@ function CoinFlipArea({stats}: TPROPS) {
         skillCheckDcRef.current = skillCheckDc;
     }, [flipResults, skillCheckDc]);
 
-    const loopFlips = (modifier: number, count: number = 0)=> {
+    const loopFlips = useCallback((modifier: number, count: number = 0)=> {
         const flipReturn: TFLIP_RETURN = doFlip(modifier);
         const newFlipResults: TFLIP_RESULTS = {
             ...flipResultsRef.current,
@@ -101,16 +101,24 @@ function CoinFlipArea({stats}: TPROPS) {
         flipTimeoutRef.current = setTimeout(() => {
             loopFlips(flipReturn.modifier, count+1)
         }, modifier !== 0 || alreadyFinished ? 50 : 1000 + count * 500);
-    };
+    }, []);
 
-    const flipButtonCallback = () => {
+    const flipButtonCallback = useCallback(() => {
         setFlipResults(DEFAULT_FLIP_RESULTS);
         flipResultsRef.current = DEFAULT_FLIP_RESULTS;
         setFlippingState(true);
         setOverallPassResult(null);
         const modifier = stats[modStat];
         loopFlips(modifier);
-    };
+    }, [flipResultsRef, setFlippingState, setOverallPassResult, loopFlips, stats, modStat]);
+
+    const cancelButtonCallback = useCallback(() => {
+        clearTimeout(flipTimeoutRef.current as number);
+        setFlippingState(false);
+        setOverallPassResult(null);
+        setFlipResults(DEFAULT_FLIP_RESULTS);
+        flipResultsRef.current = DEFAULT_FLIP_RESULTS;
+    }, [flipTimeoutRef, setFlippingState, setOverallPassResult, setFlipResults, flipResultsRef]);
 
     return <StyledWrapperDiv>
         <StyledResultDiv>Result: {overallPassResult === null ? BLANK_CHAR : overallPassResult ? CHECK_CHAR : CROSS_CHAR}</StyledResultDiv>
@@ -130,7 +138,10 @@ function CoinFlipArea({stats}: TPROPS) {
             </StyledSelect>
         </StyledSelectDiv>
         
-        <StyledButton disabled={flippingState} onClick={flipButtonCallback}>Flip</StyledButton>
+        {flippingState ? 
+            <StyledButton onClick={cancelButtonCallback}>Cancel</StyledButton> :
+            <StyledButton onClick={flipButtonCallback}>Flip</StyledButton>
+        }
     </StyledWrapperDiv>
 }
 
