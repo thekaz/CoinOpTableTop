@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/CoinOpTableTop/static/css/main.3bac0df3.css",
-    "main.js": "/CoinOpTableTop/static/js/main.d9376eea.js",
+    "main.js": "/CoinOpTableTop/static/js/main.f61abd07.js",
     "index.html": "/CoinOpTableTop/index.html",
     "main.3bac0df3.css.map": "/CoinOpTableTop/static/css/main.3bac0df3.css.map",
-    "main.d9376eea.js.map": "/CoinOpTableTop/static/js/main.d9376eea.js.map"
+    "main.f61abd07.js.map": "/CoinOpTableTop/static/js/main.f61abd07.js.map"
   },
   "entrypoints": [
     "static/css/main.3bac0df3.css",
-    "static/js/main.d9376eea.js"
+    "static/js/main.f61abd07.js"
   ]
 }
