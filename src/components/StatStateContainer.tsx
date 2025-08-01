@@ -4,11 +4,14 @@ import {
     AVAILABLE_POINTS, 
     STORAGE_NAME_KEY, 
     STORAGE_POINTS_KEY, 
+    STORAGE_HP, 
     STORAGE_STATS_KEY, 
-    TSTATS
+    TSTATS,
+    MAX_HP
 } from '../utils/CONSTANTS';
 import CoinFlipArea from './CoinFlipArea';
 import { validateStats } from '../utils/statsValidator';
+import HpArea from './HpArea';
 
 interface PROPS {
     codeEnabled: boolean;
@@ -31,6 +34,7 @@ function StatStateContainer({codeEnabled}: PROPS) {
     const [stats, setStats] = useState(initialStatsRef.current);
     const [availablePoints, setAvailablePoints] = useState(initialPointsRef.current);
     const [name, setName] = useState(initialNameRef.current);
+    const [hp, setHp] = useState(-1);
 
     useEffect(() => {
         const urlSearchParams = new URLSearchParams(window.location.search);
@@ -57,7 +61,21 @@ function StatStateContainer({codeEnabled}: PROPS) {
         const urlStorageName = urlSearchParams.get(STORAGE_NAME_KEY);
         initialNameRef.current = urlStorageName || '';
         setName(initialNameRef.current);
+
+        if (urlSearchParams.has(STORAGE_HP)) {
+            const storedHp = urlSearchParams.get(STORAGE_HP);
+            setHp(storedHp ? parseInt(storedHp): MAX_HP);
+        };
     }, []);
+
+    useEffect(() => {
+        if (codeEnabled) {
+            const url = new URL(window.location.href);
+            url.searchParams.set(STORAGE_HP, MAX_HP.toString());
+            window.history.pushState({}, '', url);
+            setHp(MAX_HP);
+        }
+    }, [codeEnabled]);
 
     const setStatsCallback = useCallback((newStats: TSTATS) => {
         const url = new URL(window.location.href);
@@ -80,6 +98,14 @@ function StatStateContainer({codeEnabled}: PROPS) {
         window.history.pushState({}, '', url);
     }, [setName])
 
+    const modifyHpCallback = useCallback((delta: number) => {
+            const url = new URL(window.location.href);
+            const newHp = hp+delta;
+            setHp(newHp);
+            url.searchParams.set(STORAGE_HP, newHp.toString());
+            window.history.pushState({}, '', url);
+    }, [hp, setHp]);
+
     return <>
         <StatsBlock stats={stats}
             setStats={setStatsCallback}
@@ -89,10 +115,8 @@ function StatStateContainer({codeEnabled}: PROPS) {
             setName={setNameCallback}
         />
         <CoinFlipArea stats={stats}/>
-        {codeEnabled && 
-            <div>
-                code enabled
-            </div>
+        {hp > -1 && 
+            <HpArea hp={hp} modifyHpCallback={modifyHpCallback} />
         }
     </>
 }

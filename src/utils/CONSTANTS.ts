@@ -48,13 +48,15 @@ export const DEFAULT_FLIP_RESULTS: TFLIP_RESULTS = {
     6: null,
 }
 
+export const MAX_HP = 3;
+
 export const orderedStatsList: Array<TSTAT> = [
     'combat', 'coordination', 'constitution', 'cognition', 'commonSense', 'cooperation'
 ];
 
-export type TDC = undefined | 1 | 2 | 3 | 4 | 5 | 6 | 7;
+export type TDC = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
-export const DC_LIST: Array<TDC> = [undefined, 1,2,3,4,5,6,7];
+export const DC_LIST: Array<TDC> = [0, 1,2,3,4,5,6,7];
 
 export const statsLabelLookup: Readonly<Map<TSTAT, string>> = new Map([
     ['combat', 'Combat'],
@@ -66,7 +68,7 @@ export const statsLabelLookup: Readonly<Map<TSTAT, string>> = new Map([
 ]);
 
 export const challengeRatingLabelLookup: Readonly<Map<TDC, string>> = new Map([
-    [undefined, '? - Secret'],
+    [0, '? - Unknown'],
     [1, '1 - Trivial'],
     [2, '2 - Simple'],
     [3, '3 - Easy'],
@@ -85,6 +87,7 @@ export const FLIP_TOTAL = 7;
 export const STORAGE_STATS_KEY = 'STATS';
 export const STORAGE_POINTS_KEY = 'POINTS';
 export const STORAGE_NAME_KEY = 'NAME';
+export const STORAGE_HP = 'HP';
 
 export const defaultButtonStyle = `
     background: none;

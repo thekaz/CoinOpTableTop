@@ -34,7 +34,7 @@ const StyledSelect = styled.select`
     margin-left: 8px;
 `;
 
-const StyledWrapperDiv = styled.div`padding:12px;`;
+const StyledWrapperDiv = styled.div`padding-bottom:16px;`;
 
 const StyledGridContainerDiv = styled.div`display: grid; grid-template-columns: repeat(7, 60px);`;
 
@@ -51,13 +51,13 @@ const StyledResultDiv = styled.div`height: 32px;`;
 
 function CoinFlipArea({stats}: TPROPS) {
     const flipResultsRef = useRef(DEFAULT_FLIP_RESULTS);
-    const skillCheckDcRef = useRef(undefined as TDC);
+    const skillCheckDcRef = useRef(0 as TDC);
     const flipTimeoutRef = useRef(0 as unknown);
     const [modStat, setModStat] = useState('combat' as TSTAT);
     const [flippingState, setFlippingState] = useState(false);
     const [flipResults, setFlipResults] = useState(DEFAULT_FLIP_RESULTS);
     const [overallPassResult, setOverallPassResult] = useState(null as boolean | null);
-    const [skillCheckDc, setSkillCheckDc] = useState(undefined as TDC);
+    const [skillCheckDc, setSkillCheckDc] = useState(0 as TDC);
 
     useEffect(() => {
         flipResultsRef.current = flipResults;
@@ -77,15 +77,11 @@ function CoinFlipArea({stats}: TPROPS) {
             collatedResults + 6 - count < skillCheckDcRef.current);
 
         if (skillCheckDcRef.current && collatedResults >= skillCheckDcRef.current) {
-        //     setFlippingState(false);
-               setOverallPassResult(true);
-        //     return;
+            setOverallPassResult(true);
         }
 
         if (skillCheckDcRef.current && collatedResults + 6 - count < skillCheckDcRef.current) {
-        //     setFlippingState(false);
-              setOverallPassResult(false);
-        //     return;
+            setOverallPassResult(false);
         }
 
         if (count >= 6) {
@@ -125,20 +121,22 @@ function CoinFlipArea({stats}: TPROPS) {
         flipResultsRef.current = DEFAULT_FLIP_RESULTS;
     }, [flipTimeoutRef, setFlippingState, setOverallPassResult, setFlipResults, flipResultsRef]);
 
+    const resultString = overallPassResult === null ? BLANK_CHAR : overallPassResult ? CHECK_CHAR : CROSS_CHAR;
+
     return <StyledWrapperDiv>
-        <StyledResultDiv>Result: {overallPassResult === null ? BLANK_CHAR : overallPassResult ? CHECK_CHAR : CROSS_CHAR}</StyledResultDiv>
+        <StyledResultDiv>Result: {resultString}</StyledResultDiv>
         <StyledGridContainerDiv>
            <CoinFlipResults flipResults={flipResults}/>
         </StyledGridContainerDiv>
         <StyledSelectDiv>
-            <label>Skill </label>
+            <label>Skill:</label>
             <StyledSelect onChange={(e) => setModStat(e.target.value as TSTAT)}>
                 {orderedStatsList.map((stat) => <StyledOption value={stat} key={stat}>{statsLabelLookup.get(stat)}</StyledOption>)}
             </StyledSelect>
         </StyledSelectDiv>
         <StyledSelectDiv>
-            <label>Difficulty </label>
-            <StyledSelect onChange={(e) => setSkillCheckDc(e.target.value === undefined ? undefined : parseInt(e.target.value) as TDC)}>
+            <label>Difficulty:</label>
+            <StyledSelect onChange={(e) => setSkillCheckDc(parseInt(e.target.value) as TDC)}>
                 {DC_LIST.map((dc) => <StyledOption value={dc} key={dc}>{challengeRatingLabelLookup.get(dc)}</StyledOption>)}
             </StyledSelect>
         </StyledSelectDiv>

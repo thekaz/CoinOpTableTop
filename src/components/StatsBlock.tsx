@@ -3,7 +3,7 @@ import { TSTATS, AVAILABLE_POINTS, DEFAULT_STATS, defaultButtonStyle } from '../
 import StatRow from './StatRow';
 import styled from '@emotion/styled';
 
-const StyledWrapperDiv = styled.div`padding:12px;`
+const StyledWrapperDiv = styled.div`padding-bottom:16px;`
 const StyledGridContainerDiv = styled.div`display: grid; grid-template-columns: 200px 40px 50px; padding-top: 16px;`;
 const StyledNameSpan = styled.span`text-decoration: underline`;
 const StyledInput = styled.input`color: inherit; background: inherit; border: 1px solid white; cursor: pointer; font-size: inherit;`;
