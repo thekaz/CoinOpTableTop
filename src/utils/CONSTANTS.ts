@@ -52,9 +52,9 @@ export const orderedStatsList: Array<TSTAT> = [
     'combat', 'coordination', 'constitution', 'cognition', 'commonSense', 'cooperation'
 ];
 
-export type TDC = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+export type TDC = undefined | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
-export const DC_LIST: Array<TDC> = [1,2,3,4,5,6,7];
+export const DC_LIST: Array<TDC> = [undefined, 1,2,3,4,5,6,7];
 
 export const statsLabelLookup: Readonly<Map<TSTAT, string>> = new Map([
     ['combat', 'Combat'],
@@ -66,6 +66,7 @@ export const statsLabelLookup: Readonly<Map<TSTAT, string>> = new Map([
 ]);
 
 export const challengeRatingLabelLookup: Readonly<Map<TDC, string>> = new Map([
+    [undefined, '? - Secret'],
     [1, '1 - Trivial'],
     [2, '2 - Simple'],
     [3, '3 - Easy'],

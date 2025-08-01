@@ -13,6 +13,7 @@ import {
     CROSS_CHAR,
     DC_LIST,
     challengeRatingLabelLookup,
+    TDC,
 } from '../utils/CONSTANTS';
 import styled from '@emotion/styled';
 import { collateResults, doFlip, TFLIP_RETURN } from '../utils/coinflip';
@@ -50,13 +51,13 @@ const StyledResultDiv = styled.div`height: 32px;`;
 
 function CoinFlipArea({stats}: TPROPS) {
     const flipResultsRef = useRef(DEFAULT_FLIP_RESULTS);
-    const skillCheckDcRef = useRef(1);
+    const skillCheckDcRef = useRef(undefined as TDC);
     const flipTimeoutRef = useRef(0 as unknown);
     const [modStat, setModStat] = useState('combat' as TSTAT);
     const [flippingState, setFlippingState] = useState(false);
     const [flipResults, setFlipResults] = useState(DEFAULT_FLIP_RESULTS);
     const [overallPassResult, setOverallPassResult] = useState(null as boolean | null);
-    const [skillCheckDc, setSkillCheckDc] = useState(1);
+    const [skillCheckDc, setSkillCheckDc] = useState(undefined as TDC);
 
     useEffect(() => {
         flipResultsRef.current = flipResults;
@@ -72,16 +73,16 @@ function CoinFlipArea({stats}: TPROPS) {
         setFlipResults(newFlipResults);
 
         const collatedResults = collateResults(newFlipResults);
-        const alreadyFinished = collatedResults >= skillCheckDcRef.current ||
-            collatedResults + 6 - count < skillCheckDcRef.current;
+        const alreadyFinished = skillCheckDcRef.current && (collatedResults >= skillCheckDcRef.current ||
+            collatedResults + 6 - count < skillCheckDcRef.current);
 
-        if (collatedResults >= skillCheckDcRef.current) {
+        if (skillCheckDcRef.current && collatedResults >= skillCheckDcRef.current) {
         //     setFlippingState(false);
                setOverallPassResult(true);
         //     return;
         }
 
-        if (collatedResults + 6 - count < skillCheckDcRef.current) {
+        if (skillCheckDcRef.current && collatedResults + 6 - count < skillCheckDcRef.current) {
         //     setFlippingState(false);
               setOverallPassResult(false);
         //     return;
@@ -89,7 +90,11 @@ function CoinFlipArea({stats}: TPROPS) {
 
         if (count >= 6) {
             setFlippingState(false);
-            setOverallPassResult(collatedResults >= skillCheckDcRef.current);
+            if (!skillCheckDcRef.current) {
+                setOverallPassResult(null);
+            } else {
+                setOverallPassResult(collatedResults >= skillCheckDcRef.current);
+            }
             return;
         }
 
@@ -133,7 +138,7 @@ function CoinFlipArea({stats}: TPROPS) {
         </StyledSelectDiv>
         <StyledSelectDiv>
             <label>Difficulty </label>
-            <StyledSelect onChange={(e) => setSkillCheckDc(parseInt(e.target.value))}>
+            <StyledSelect onChange={(e) => setSkillCheckDc(e.target.value === undefined ? undefined : parseInt(e.target.value) as TDC)}>
                 {DC_LIST.map((dc) => <StyledOption value={dc} key={dc}>{challengeRatingLabelLookup.get(dc)}</StyledOption>)}
             </StyledSelect>
         </StyledSelectDiv>
