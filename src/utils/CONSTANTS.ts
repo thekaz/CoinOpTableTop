@@ -50,6 +50,8 @@ export const DEFAULT_FLIP_RESULTS: TFLIP_RESULTS = {
 
 export const MAX_HP = 3;
 
+export const DEFAULT_HP = 2;
+
 export const orderedStatsList: Array<TSTAT> = [
     'combat', 'coordination', 'constitution', 'cognition', 'commonSense', 'cooperation'
 ];

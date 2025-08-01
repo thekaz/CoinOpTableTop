@@ -7,7 +7,7 @@ import {
     STORAGE_HP_KEY, 
     STORAGE_STATS_KEY, 
     TSTATS,
-    MAX_HP
+    DEFAULT_HP
 } from '../utils/CONSTANTS';
 import CoinFlipArea from './CoinFlipArea';
 import { validateStats } from '../utils/statsValidator';
@@ -64,16 +64,16 @@ function StatStateContainer({codeEnabled}: PROPS) {
 
         if (urlSearchParams.has(STORAGE_HP_KEY)) {
             const storedHp = urlSearchParams.get(STORAGE_HP_KEY);
-            setHp(storedHp ? parseInt(storedHp): MAX_HP);
+            setHp(storedHp ? parseInt(storedHp): DEFAULT_HP);
         };
     }, []);
 
     useEffect(() => {
         if (codeEnabled) {
             const url = new URL(window.location.href);
-            url.searchParams.set(STORAGE_HP_KEY, MAX_HP.toString());
+            url.searchParams.set(STORAGE_HP_KEY, DEFAULT_HP.toString());
             window.history.pushState({}, '', url);
-            setHp(MAX_HP);
+            setHp(DEFAULT_HP);
         }
     }, [codeEnabled]);
 

@@ -73,8 +73,8 @@ function CoinFlipArea({stats}: TPROPS) {
         setFlipResults(newFlipResults);
 
         const collatedResults = collateResults(newFlipResults);
-        const alreadyFinished = skillCheckDcRef.current && (collatedResults >= skillCheckDcRef.current ||
-            collatedResults + 6 - count < skillCheckDcRef.current);
+        const alreadyFinished = collatedResults >= skillCheckDcRef.current ||
+            collatedResults + 6 - count < skillCheckDcRef.current;
 
         if (skillCheckDcRef.current && collatedResults >= skillCheckDcRef.current) {
             setOverallPassResult(true);
@@ -101,7 +101,7 @@ function CoinFlipArea({stats}: TPROPS) {
 
         flipTimeoutRef.current = setTimeout(() => {
             loopFlips(flipReturn.modifier, count+1)
-        }, modifier !== 0 || alreadyFinished ? 50 : 1000 + count * 500);
+        }, modifier !== 0 || alreadyFinished ? 500 : 1000 + count * 500);
     }, []);
 
     const flipButtonCallback = useCallback(() => {
