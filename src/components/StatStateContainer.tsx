@@ -4,7 +4,7 @@ import {
     AVAILABLE_POINTS, 
     STORAGE_NAME_KEY, 
     STORAGE_POINTS_KEY, 
-    STORAGE_HP, 
+    STORAGE_HP_KEY, 
     STORAGE_STATS_KEY, 
     TSTATS,
     MAX_HP
@@ -62,8 +62,8 @@ function StatStateContainer({codeEnabled}: PROPS) {
         initialNameRef.current = urlStorageName || '';
         setName(initialNameRef.current);
 
-        if (urlSearchParams.has(STORAGE_HP)) {
-            const storedHp = urlSearchParams.get(STORAGE_HP);
+        if (urlSearchParams.has(STORAGE_HP_KEY)) {
+            const storedHp = urlSearchParams.get(STORAGE_HP_KEY);
             setHp(storedHp ? parseInt(storedHp): MAX_HP);
         };
     }, []);
@@ -71,7 +71,7 @@ function StatStateContainer({codeEnabled}: PROPS) {
     useEffect(() => {
         if (codeEnabled) {
             const url = new URL(window.location.href);
-            url.searchParams.set(STORAGE_HP, MAX_HP.toString());
+            url.searchParams.set(STORAGE_HP_KEY, MAX_HP.toString());
             window.history.pushState({}, '', url);
             setHp(MAX_HP);
         }
@@ -102,7 +102,7 @@ function StatStateContainer({codeEnabled}: PROPS) {
             const url = new URL(window.location.href);
             const newHp = hp+delta;
             setHp(newHp);
-            url.searchParams.set(STORAGE_HP, newHp.toString());
+            url.searchParams.set(STORAGE_HP_KEY, newHp.toString());
             window.history.pushState({}, '', url);
     }, [hp, setHp]);
 

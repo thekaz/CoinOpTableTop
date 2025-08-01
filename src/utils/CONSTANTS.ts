@@ -84,10 +84,10 @@ export const MIN_STATS = -2;
 export const MAX_STATS = 2;
 export const FLIP_TOTAL = 7;
 
-export const STORAGE_STATS_KEY = 'STATS';
-export const STORAGE_POINTS_KEY = 'POINTS';
-export const STORAGE_NAME_KEY = 'NAME';
-export const STORAGE_HP = 'HP';
+export const STORAGE_STATS_KEY = 'stats';
+export const STORAGE_POINTS_KEY = 'points';
+export const STORAGE_NAME_KEY = 'name';
+export const STORAGE_HP_KEY = 'hp';
 
 export const defaultButtonStyle = `
     background: none;
