@@ -15,6 +15,10 @@ const StyledPlusMinusButton = styled.button`
 
 const StyledHpBox = styled.div`
     display: inline-flex;
+    margin-top: 2px;
+    margin-bottom: 6px;
+    margin-left: 1px;
+    margin-right: 1px;
 `;
 
 const StyledHpContainer = styled.div`
