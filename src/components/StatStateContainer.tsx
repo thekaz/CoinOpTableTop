@@ -10,6 +10,10 @@ import {
 import CoinFlipArea from './CoinFlipArea';
 import { validateStats } from '../utils/statsValidator';
 
+interface PROPS {
+    codeEnabled: boolean;
+}
+
 const defaultStats = {
     combat: 0,
     coordination: 0,
@@ -19,7 +23,7 @@ const defaultStats = {
     cooperation: 0,
 } as TSTATS;
 
-function StatStateContainer() {
+function StatStateContainer({codeEnabled}: PROPS) {
     const initialStatsRef = useRef(defaultStats);
     const initialPointsRef = useRef(AVAILABLE_POINTS);
     const initialNameRef = useRef('')
@@ -85,6 +89,11 @@ function StatStateContainer() {
             setName={setNameCallback}
         />
         <CoinFlipArea stats={stats}/>
+        {codeEnabled && 
+            <div>
+                code enabled
+            </div>
+        }
     </>
 }
 
